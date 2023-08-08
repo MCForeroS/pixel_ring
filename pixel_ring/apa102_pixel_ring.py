@@ -4,10 +4,10 @@ import threading
 try:
     import queue as Queue
 except ImportError:
-    import Queue as Queue
+    import queue as Queue
 
 from .apa102 import APA102
-from .pattern import Echo, GoogleHome
+from .pattern import Echo, GoogleHome, Deinteko
 
 
 class PixelRing(object):
@@ -16,8 +16,11 @@ class PixelRing(object):
     def __init__(self, pattern='google'):
         if pattern == 'echo':
             self.pattern = Echo(show=self.show)
-        else:
+        elif pattern == 'home':
             self.pattern = GoogleHome(show=self.show)
+        else:
+            self.pattern = Deinteko(show=self.show)
+
 
         self.dev = APA102(num_led=self.PIXELS_N)
 
@@ -37,8 +40,10 @@ class PixelRing(object):
     def change_pattern(self, pattern):
         if pattern == 'echo':
             self.pattern = Echo(show=self.show)
-        else:
+        elif pattern == 'home':
             self.pattern = GoogleHome(show=self.show)
+        else:
+            self.pattern = Deinteko(show=self.show)
 
     def wakeup(self, direction=0):
         def f():
